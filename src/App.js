@@ -1,40 +1,58 @@
 import React, {useState} from 'react';
 import {startOfToday, format, addMonths, differenceInMonths} from 'date-fns'
 
+const roundNumber = (number, places) => parseFloat(number.toFixed(places))
+
 export const App = () => {
 
-    const [loanPrincipal, setLoanPrincipal] = useState(0);
-    const [loanInterest, setLoanInterest] = useState(0);
-    const [loanInterestRate, setLoanInterestRate] = useState(0);
-    const [loanLength, setLoanLength] = useState();
+    const [loanAmount, setLoanAmount] = useState(30000);
+    const [loanInterestRate, setLoanInterestRate] = useState(8.40);
+    const [loanLength, setLoanLength] = useState(72);
     const [payOffDate, setPayOffDate] = useState(format(startOfToday(), 'yyyy-MM-dd'));
     const [loanTotalInterest, setLoanTotalInterest] = useState(0.00);
     const [loanEarlyMonths, setLoanEarlyMonths] = useState(0);
     const [monthlyPayment, setMonthlyPayment] = useState();
 
     const calculateTotal = () => {
-        const loanTotal = (loanPrincipal + loanInterest);
-        console.log("Loan Principal", loanPrincipal);
-        console.log("Loan Interest", loanInterest);
-        console.log("Loan Total", loanTotal);
-        console.log("Loan Length", loanLength);
 
-        const convertedRate = loanInterestRate * .01 / 12;
+        const convertedRate = (loanInterestRate * .01) / 12;
         console.log("Converted Rate", convertedRate);
+
+        const firstInterestAmount = ((loanInterestRate * .01) / 12) * loanAmount;
+        console.log("First Interest Amount", firstInterestAmount);
+
+        console.log("Loan Amount", loanAmount);
+        console.log("Loan Length", loanLength);
 
         const convertedWithLoan = Math.pow(1 + convertedRate, loanLength);
         console.log("Converted With Loan", convertedWithLoan);
 
-        setMonthlyPayment(Number(loanTotal / ((convertedWithLoan - 1) / (convertedRate * (convertedWithLoan)))));
-        console.log(monthlyPayment.toFixed(2));
+        const monthlyPayment = Math.round(Number(loanAmount / ((convertedWithLoan - 1) / (convertedRate * (convertedWithLoan)))));
+        console.log("Monthly Payment", monthlyPayment);
+        const loanTable = {};
 
-        const fullyPaidOffDate = addMonths(startOfToday(), loanLength);
-        console.log(fullyPaidOffDate);
+        loanTable[0] = {
+            startingBalance: loanAmount,
+            repayment: monthlyPayment,
+            interestPaid: firstInterestAmount,
+            principalPaid: (monthlyPayment - firstInterestAmount),
+            newBalance: loanAmount - (monthlyPayment - firstInterestAmount)
+        };
 
-        setLoanEarlyMonths(differenceInMonths(fullyPaidOffDate, new Date(payOffDate)));
-        setLoanTotalInterest(Number((loanInterestRate / loanLength) * (loanPrincipal)).toFixed(2));
+        for (let i=1; i < loanLength; i++){
+            const loanBalance = loanTable[i-1].newBalance;
+            const interestPayment = ((loanInterestRate * .01) / 12) * loanBalance;
+            const roundedInterest = Math.round(interestPayment * 100) / 100;
+            loanTable[i] = {
+                startingBalance: loanTable[i-1].newBalance,
+                repayment: monthlyPayment,
+                interestPaid: roundedInterest,
+                principalPaid: Math.round((monthlyPayment - roundedInterest) * 100) / 100,
+                newBalance: Math.round((loanBalance - (monthlyPayment - roundedInterest)) * 100) / 100
+            }
+        }
+        console.log(loanTable);
 
-        console.log(Number((loanInterestRate / differenceInMonths(fullyPaidOffDate, new Date(payOffDate))) * (loanPrincipal)).toFixed(2));
     };
 
     return (
@@ -44,22 +62,10 @@ export const App = () => {
           <div>Current Loan Principal</div>
           <input
             id="loanAmount"
-            placeholder="Enter Loan Amount"
+            placeholder="Enter Total Loan Amount"
             type="number"
-            value={loanPrincipal}
-            onChange={e => setLoanPrincipal(Number(e.target.value))}
-          />
-        </div>
-      </div>
-      <div className="row">
-        <div className="col-12 text-center">
-          <div>Current Loan Interest</div>
-          <input
-            id="loanInterest"
-            placeholder="Enter Loan Interest"
-            type="number"
-            value={loanInterest}
-            onChange={e => setLoanInterest(Number(e.target.value))}
+            value={loanAmount}
+            onChange={e => setLoanAmount(Number(e.target.value))}
           />
         </div>
       </div>
