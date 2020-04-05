@@ -71,13 +71,22 @@ export const LoanForm = () => {
 
     return (
         <div className="container">
+            <h1 className='col-12 text-center mt-3'>Saved Interest Calculator</h1>
+            <p className='col-12 text-center'>
+                This calculator takes in information pertaining to a specific loan, and calculates the amount of interest
+                you would save by paying it off early.
+            </p>
+            <p className='col-12 text-center'>
+                The Payoff date is the pay period you intend to fully pay off
+                the rest of the loan
+            </p>
             <form role='form'>
                 <LoanAmountInput {...loanAmountProps} />
                 <InterestRateInput {...interestRateProps} />
                 <LoanLengthInput {...loanLengthProps} />
                 <PayoffDateInput {...payoffDateProps} />
                 <div className="row">
-                    <div className="col-12 text-center">
+                    <div className="col-12 text-center p-3">
                         <button type="button" className="btn btn-primary" onClick={onClick}>Compute Saved Interest</button>
                     </div>
                 </div>

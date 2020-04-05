@@ -62,7 +62,7 @@ export const AmortizationTable = (props) => {
         return Object.keys(amortizationSchedule).map((month, index) => {
             const { startingBalance, repayment, interestPaid, principalPaid, newBalance } = amortizationSchedule[month];
             return (
-                <tr key={index} className={Number(month) >= Number(finishOnPaymentNumber) ? 'finish-month' : ''}>
+                <tr key={index} className={Number(month) >= Number(finishOnPaymentNumber) ? 'bg-success' : ''}>
                     <td>{index+1}</td>
                     <td>{numberFormat.format(startingBalance)}</td>
                     <td>{numberFormat.format(repayment)}</td>
@@ -76,7 +76,7 @@ export const AmortizationTable = (props) => {
 
     const renderTable = () => {
         return (
-            <table className='table' id='months'>
+            <table className='table table-striped table-bordered' id='months'>
                 <tbody>
                 {renderTableHeader()}
                 {renderTableBody()}
@@ -89,7 +89,7 @@ export const AmortizationTable = (props) => {
         <div className="row">
         {Object.keys(amortizationSchedule).length > 0 && (
             <div className="col-12 text-center">
-                <h3>Saved Interest Amount: {numberFormat.format(savedInterest)}</h3>
+                <h4>Saved Interest Amount: {numberFormat.format(savedInterest)}</h4>
                 <h1>Amortization Schedule</h1>
                 {renderTable()}
             </div> )
