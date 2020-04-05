@@ -5,6 +5,7 @@ import {InterestRateInput, validateInterestRate} from "./InterestRateInput";
 import {LoanLengthInput, validateLoanLength} from "./LoanLengthInput";
 import {PayoffDateInput, validatePayoffDate} from "./PayoffDateInput";
 import {AmortizationTable, createAmortizationSchedule} from "./AmortizationTable";
+import {HeaderInformation} from "./HeaderInformation";
 
 export const LoanForm = () => {
     const [loanAmount, setLoanAmount] = useState();
@@ -71,15 +72,7 @@ export const LoanForm = () => {
 
     return (
         <div className="container">
-            <h1 className='col-12 text-center mt-3'>Saved Interest Calculator</h1>
-            <p className='col-12 text-center'>
-                This calculator takes in information pertaining to a specific loan, and calculates the amount of interest
-                you would save by paying it off early.
-            </p>
-            <p className='col-12 text-center'>
-                The Payoff date is the pay period you intend to fully pay off
-                the rest of the loan
-            </p>
+            <HeaderInformation/>
             <form role='form'>
                 <LoanAmountInput {...loanAmountProps} />
                 <InterestRateInput {...interestRateProps} />
