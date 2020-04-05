@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import {startOfToday, format} from 'date-fns'
 import {AmortizationTable, createAmortizationSchedule} from "./components/AmortizationTable";
-import {Input} from "./components/Input";
 import {LoanAmountInput, validateLoanAmount} from "./components/LoanAmountInput";
 import {InterestRateInput, validateInterestRate} from "./components/InterestRateInput";
 import {LoanLengthInput, validateLoanLength} from "./components/LoanLengthInput";

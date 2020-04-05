@@ -1,7 +1,7 @@
 import React from 'react';
 import {Input} from "./Input";
 
-const loanRegex = RegExp('^[0-9]{1,15}$');
+const loanRegex = RegExp('^[0-9]{1,10}$');
 
 export const validateLoanAmount = (value, setErrorMessage) => {
     if(!value) {
@@ -9,7 +9,7 @@ export const validateLoanAmount = (value, setErrorMessage) => {
         return false;
     }
     if(!loanRegex.test(value)) {
-        setErrorMessage('Loan Amount needs to be a number between 1 and 15 digits');
+        setErrorMessage('Loan Amount needs to be a number between 1 and 10 digits');
         return false;
     }
     setErrorMessage(undefined);
