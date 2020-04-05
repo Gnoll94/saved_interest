@@ -7,13 +7,13 @@ import {PayoffDateInput, validatePayoffDate} from "./PayoffDateInput";
 import {AmortizationTable, createAmortizationSchedule} from "./AmortizationTable";
 
 export const LoanForm = () => {
-    const [loanAmount, setLoanAmount] = useState(30000);
+    const [loanAmount, setLoanAmount] = useState();
     const [loanErrorMessage, setLoanErrorMessage] = useState(undefined);
 
-    const [loanInterestRate, setLoanInterestRate] = useState(6.45);
+    const [loanInterestRate, setLoanInterestRate] = useState();
     const [interestRateErrorMessage, setInterestRateErrorMessage] = useState(undefined);
 
-    const [loanLength, setLoanLength] = useState(24);
+    const [loanLength, setLoanLength] = useState();
     const [loanLengthErrorMessage, setLoanLengthErrorMessage] = useState(undefined);
 
     const [payoffDate, setPayoffDate] = useState(format(startOfToday(), 'yyyy-MM-dd'));
